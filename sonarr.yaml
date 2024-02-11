@@ -1,15 +1,15 @@
 version: "2.1"
 services:
-  radarr:
-    image: lscr.io/linuxserver/radarr:latest
-    container_name: radarr
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/Auxiliary/Trackers/radarr/config:/config:Z
+      - ~/Auxiliary/Trackers/sonarr/config:/config:Z
       - ~/Auxiliary/Trackers/storage:/storage:z
     ports:
-      - 7878:7878
+      - 8989:8989  # http UI
     restart: unless-stopped

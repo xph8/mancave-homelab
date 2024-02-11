@@ -8,8 +8,8 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - ~/Auxiliary/Books/calibre-web:/config
-      - ~/Auxiliary/Books/main:/books
+      - ~/Auxiliary/Books/calibre-web:/config:Z
+      - ~/Auxiliary/Books/main:/books:Z
     ports:
       - 8083:8083
     restart: unless-stopped
