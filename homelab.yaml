@@ -1,0 +1,98 @@
+version: "3.3"
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - ~/Auxiliary/Trackers/homepage/config:/app/config:Z
+      # - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - JELLYFIN_PublishedServerUrl=192.168.0.5  # optional - set the autodiscovery response domain or IP address
+    volumes:
+      - ~/Auxiliary/Trackers/jellyfin/config:/config:Z
+      - ~/Auxiliary/Trackers/storage/media:/data:z
+    ports:
+      - 8096:8096  # http UI
+      # - 8920:8920  # optional - https UI
+      - 7359:7359/udp  # optional - discover server on local network
+      - 1900:1900/udp  # optional - service discovery used by DNLA and client
+    restart: unless-stopped
+
+  jellyseerr:
+    image: docker.io/fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Etc/UTC
+    ports:
+      - 5055:5055
+    volumes:
+      - ~/Auxiliary/Trackers/jellyseer/config:/app/config:Z
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8070
+    volumes:
+      - ~/Auxiliary/Trackers/qbittrorrent/config:/config:Z
+      - ~/Auxiliary/Trackers/storage/torrents:/storage/torrents:z
+    ports:
+      - 8070:8070
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/Auxiliary/Trackers/prowlarr/config:/config:Z
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/Auxiliary/Trackers/radarr/config:/config:Z
+      - ~/Auxiliary/Trackers/storage:/storage:z
+    ports:
+      - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/Auxiliary/Trackers/sonarr/config:/config:Z
+      - ~/Auxiliary/Trackers/storage:/storage:z
+    ports:
+      - 8989:8989  # http UI
+    restart: unless-stopped
