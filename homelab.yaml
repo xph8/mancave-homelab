@@ -1,5 +1,17 @@
 version: "3.3"
 services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    security_opt:
+      - label=disable
+    ports:
+      - 9443:9443
+    volumes:
+      - ~/Auxiliary/Trackers/portainer:/data:Z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:z  # $(id -u) = 1000
+    restart: always
+
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
@@ -7,7 +19,7 @@ services:
       - 3000:3000
     volumes:
       - ~/Auxiliary/Trackers/homepage/config:/app/config:Z
-      # - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+      # - /var/run/docker.sock:/var/run/docker.sock:z # (optional) For docker integrations
 
   jellyfin:
     image: lscr.io/linuxserver/jellyfin:latest
@@ -67,6 +79,15 @@ services:
       - ~/Auxiliary/Trackers/prowlarr/config:/config:Z
     ports:
       - 9696:9696
+    restart: unless-stopped
+
+  flaresolver:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolver
+    environment:
+      - LOG_LEVEL=info
+    ports:
+      - 8191:8191
     restart: unless-stopped
 
   radarr:
