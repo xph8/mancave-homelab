@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: docker.io/portainer/portainer-ce
     container_name: portainer
     security_opt:
       - label=disable
@@ -13,16 +13,18 @@ services:
     restart: always
 
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
+    image: ghcr.io/gethomepage/homepage
     container_name: homepage
+    security_opt:
+      - label=disable
     ports:
       - 3000:3000
     volumes:
       - ~/Auxiliary/Trackers/homepage/config:/app/config:Z
-      # - /var/run/docker.sock:/var/run/docker.sock:z # (optional) For docker integrations
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:z  # $(id -u) = 1000
 
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: lscr.io/linuxserver/jellyfin
     container_name: jellyfin
     environment:
       - PUID=1000
@@ -40,7 +42,7 @@ services:
     restart: unless-stopped
 
   jellyseerr:
-    image: docker.io/fallenbagel/jellyseerr:latest
+    image: docker.io/fallenbagel/jellyseerr
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=debug
@@ -52,7 +54,7 @@ services:
     restart: unless-stopped
 
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent
     container_name: qbittorrent
     environment:
       - PUID=1000
@@ -69,7 +71,7 @@ services:
     restart: unless-stopped
 
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr
     container_name: prowlarr
     environment:
       - PUID=1000
@@ -82,7 +84,7 @@ services:
     restart: unless-stopped
 
   flaresolver:
-    image: ghcr.io/flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr
     container_name: flaresolver
     environment:
       - LOG_LEVEL=info
@@ -91,7 +93,7 @@ services:
     restart: unless-stopped
 
   radarr:
-    image: lscr.io/linuxserver/radarr:latest
+    image: lscr.io/linuxserver/radarr
     container_name: radarr
     environment:
       - PUID=1000
@@ -105,7 +107,7 @@ services:
     restart: unless-stopped
 
   sonarr:
-    image: lscr.io/linuxserver/sonarr:latest
+    image: lscr.io/linuxserver/sonarr
     container_name: sonarr
     environment:
       - PUID=1000
@@ -117,3 +119,33 @@ services:
     ports:
       - 8989:8989  # http UI
     restart: unless-stopped
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ~/Auxiliary/Trackers/bazarr/config:/config:Z
+      - ~/Auxiliary/Trackers/storage/media/movies:/movies:z
+      - ~/Auxiliary/Trackers/storage/media/tv:/tv:z
+    ports:
+      - 6767:6767
+    restart: unless-stopped
+
+  # lidarr:
+  #   image: lscr.io/linuxserver/lidarr
+  #   container_name: lidarr
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Etc/UTC
+  #   volumes:
+  #     - ~/Auxiliary/Trackers/lidarr/config:/config:Z
+  #     - /path/to/music:/music #optional
+  #     - /path/to/downloads:/downloads #optional
+  #   ports:
+  #     - 8686:8686
+  #   restart: unless-stopped

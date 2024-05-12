@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: radarr
+spec:
+  containers:
+  - name: radarr
+    image: lscr.io/linuxserver/radarr
+    ports:
+    - hostPort: 7878
+    env:
+    - name: TZ
+      value: Etc/UTC
+    - name: PUID
+      value: 1000
+    - name: PGID
+      value: 1000
+    volumeMounts:
+    - name: config
+      mountPath: /config:Z
+    - name: storage
+      mountPath: /storage:z
+  volumes:
+  - name: config
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/radarr/config
+      type: DirectoryOrCreate
+  - name: storage
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/storage

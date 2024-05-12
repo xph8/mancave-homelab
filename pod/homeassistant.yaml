@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: homeassistant
+spec:
+  containers:
+  - name: homeassistant
+    image: lscr.io/linuxserver/homeassistant
+    network_mode: host
+    ports:
+    - hostPort: 8123
+    env:
+    - name: TZ
+      value: Etc/UTC
+    - name: PUID
+      value: 1000
+    - name: PGID
+      value: 1000
+    volumeMounts:
+    - name: config
+      mountPath: /config:Z
+  volumes:
+  - name: config
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/homeassistant/config
+      type: DirectoryOrCreate

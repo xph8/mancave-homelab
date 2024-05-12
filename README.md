@@ -2,15 +2,10 @@
 
 ![overview](homelab.drawio.svg)
 
-watchtower - tag upgrade
-
-bazarr - subtitles
-tdaar - clean up subtitles
-
 pihole
 gluetun
 
 folder structure
 https://github.com/Roadeo/qbittorrent-peers-location-grafana
 
-podman-compose -> quadlet ?
+helm to render tempates, podman to run: https://github.com/containers/podman/issues/15098

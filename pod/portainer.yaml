@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: portainer
+spec:
+  SecurityContext:
+    SELinuxOptions:
+      level: ""  # TODO
+  containers:
+  - name: portainer
+    image: docker.io/portainer/portainer-ce
+    ports:
+    - hostPort: 9443
+    volumeMounts:
+    - name: data
+      mountPath: /data:Z
+    - name: socket
+      mountPath: /var/run/docker.sock:z
+  volumes:
+  - name: data
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/portainer
+      type: DirectoryOrCreate
+  - name: socket
+    hostPath:
+      path: /run/user/1000/podman/podman.sock  # $(id -u) = 1000

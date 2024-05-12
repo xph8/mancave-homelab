@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prowlarr
+spec:
+  containers:
+  - name: prowlarr
+    image: lscr.io/linuxserver/prowlarr
+    ports:
+    - hostPort: 9696
+    env:
+    - name: TZ
+      value: Etc/UTC
+    - name: PUID
+      value: 1000
+    - name: PGID
+      value: 1000
+    volumeMounts:
+    - name: config
+      mountPath: /config:Z
+  volumes:
+  - name: config
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/prowlarr/config
+      type: DirectoryOrCreate
