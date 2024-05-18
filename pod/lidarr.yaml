@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lidarr
+spec:
+  containers:
+  - name: sonarr
+    image: lscr.io/linuxserver/lidarr
+    ports:
+    - hostPort: 8686
+    env:
+    - name: TZ
+      value: Etc/UTC
+    - name: PUID
+      value: 1000
+    - name: PGID
+      value: 1000
+    volumeMounts:
+    - name: config
+      mountPath: /config:Z
+    - name: storage
+      mountPath: /storage:z
+  volumes:
+  - name: config
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/lidarr/config
+      type: DirectoryOrCreate
+  - name: storage
+    hostPath:
+      path: /home/xph8/Auxiliary/Trackers/storage

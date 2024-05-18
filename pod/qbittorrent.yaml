@@ -8,8 +8,10 @@ spec:
     image: lscr.io/linuxserver/qbittorrent
     ports:
     - hostPort: 8070
-    - hostPort: 6881
-    - hostPort: 6881/udp
+    - protocol: TCP
+      hostPort: 6881
+    - protocol: UDP
+      hostPort: 6881
     env:
     - name: TZ
       value: Etc/UTC

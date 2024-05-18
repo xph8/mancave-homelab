@@ -32,4 +32,4 @@ spec:
       path: /home/xph8/Auxiliary/Trackers/storage/media/movies
   - name: tv
     hostPath:
-      path: /home/xph8/Auxiliary/Trackers/storage/media/tv
+      path: /home/xph8/Auxiliary/Trackers/storage/media/tvshows

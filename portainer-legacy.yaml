@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  portainer:
+    image: docker.io/portainer/portainer-ce
+    container_name: portainer
+    security_opt:
+      - label=disable
+    ports:
+      - 9443:9443
+    volumes:
+      - ~/Auxiliary/Trackers/portainer:/data:Z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:z  # $(id -u) = 1000
+    restart: always

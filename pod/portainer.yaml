@@ -5,7 +5,7 @@ metadata:
 spec:
   SecurityContext:
     SELinuxOptions:
-      level: ""  # TODO
+      level: "disable"  # TODO verify
   containers:
   - name: portainer
     image: docker.io/portainer/portainer-ce
@@ -23,4 +23,4 @@ spec:
       type: DirectoryOrCreate
   - name: socket
     hostPath:
-      path: /run/user/1000/podman/podman.sock  # $(id -u) = 1000
+      path: /run/user/1000/podman/podman.sock  # $(id -u) = 1000  # TODO not found. permission issue?

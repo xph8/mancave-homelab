@@ -15,7 +15,7 @@ spec:
       value: debug
     volumeMounts:
     - name: config
-      mountPath: /config:Z
+      mountPath: /app/config:Z
   volumes:
   - name: config
     hostPath:
