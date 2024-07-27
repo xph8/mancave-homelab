@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: jellyseer
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
   - name: jellyseer
-    image: docker.io/fallenbagel/jellyseerr
+    image: docker.io/fallenbagel/jellyseerr:latest
     ports:
     - hostPort: 5055
     env:

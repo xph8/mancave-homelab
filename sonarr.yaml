@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: sonarr
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
   - name: sonarr
-    image: lscr.io/linuxserver/sonarr
+    image: lscr.io/linuxserver/sonarr:latest
     ports:
     - hostPort: 8989
     env:

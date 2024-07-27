@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: bazarr
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
   - name: bazarr
-    image: lscr.io/linuxserver/bazarr
+    image: lscr.io/linuxserver/bazarr:latest
     ports:
     - hostPort: 6767
     env:

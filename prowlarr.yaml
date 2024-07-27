@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: radarr
+  name: prowlarr
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
-  - name: radarr
-    image: lscr.io/linuxserver/radarr
+  - name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:latest
     ports:
-    - hostPort: 7878
+    - hostPort: 9696
     env:
     - name: TZ
       value: Etc/UTC
@@ -18,13 +20,8 @@ spec:
     volumeMounts:
     - name: config
       mountPath: /config:Z
-    - name: storage
-      mountPath: /storage:z
   volumes:
   - name: config
     hostPath:
-      path: /home/xph8/Auxiliary/Trackers/radarr/config
+      path: /home/xph8/Auxiliary/Trackers/prowlarr/config
       type: DirectoryOrCreate
-  - name: storage
-    hostPath:
-      path: /home/xph8/Auxiliary/Trackers/storage

@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: qbittorrent
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
   - name: qbittorrent
-    image: lscr.io/linuxserver/qbittorrent
+    image: lscr.io/linuxserver/qbittorrent:latest
     ports:
     - hostPort: 8070
     - protocol: TCP

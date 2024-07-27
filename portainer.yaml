@@ -2,13 +2,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: portainer
+  annotations:
+    io.containers.autoupdate: registry
 spec:
-  SecurityContext:
-    SELinuxOptions:
-      level: "disable"  # TODO verify
+  securityContext:
+    seLinuxOptions:
+      type: spc_t  # equivalent to --security-opt label=disable
   containers:
   - name: portainer
-    image: docker.io/portainer/portainer-ce
+    image: docker.io/portainer/portainer-ce:latest
     ports:
     - hostPort: 9443
     volumeMounts:
@@ -23,4 +25,4 @@ spec:
       type: DirectoryOrCreate
   - name: socket
     hostPath:
-      path: /run/user/1000/podman/podman.sock  # $(id -u) = 1000  # TODO not found. permission issue?
+      path: /run/user/1000/podman/podman.sock

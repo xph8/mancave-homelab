@@ -1,13 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: lidarr
+  name: radarr
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
-  - name: sonarr
-    image: lscr.io/linuxserver/lidarr
+  - name: radarr
+    image: lscr.io/linuxserver/radarr:latest
     ports:
-    - hostPort: 8686
+    - hostPort: 7878
     env:
     - name: TZ
       value: Etc/UTC
@@ -23,7 +25,7 @@ spec:
   volumes:
   - name: config
     hostPath:
-      path: /home/xph8/Auxiliary/Trackers/lidarr/config
+      path: /home/xph8/Auxiliary/Trackers/radarr/config
       type: DirectoryOrCreate
   - name: storage
     hostPath:

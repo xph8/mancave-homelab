@@ -2,10 +2,12 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: flaresolverr
+  annotations:
+    io.containers.autoupdate: registry
 spec:
   containers:
   - name: flaresolverr
-    image: ghcr.io/flaresolverr/flaresolverr
+    image: ghcr.io/flaresolverr/flaresolverr:latest
     ports:
     - hostPort: 8191
     env:
